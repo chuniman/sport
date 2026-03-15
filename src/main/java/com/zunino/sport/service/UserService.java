@@ -1,6 +1,5 @@
 package com.zunino.sport.service;
 
-import com.zunino.sport.persistence.dto.RegisterDto;
 import com.zunino.sport.persistence.dto.UpdateUserDto;
 import com.zunino.sport.persistence.dto.UserDto;
 import com.zunino.sport.persistence.entity.UserEntity;

@@ -18,7 +18,7 @@ public class OrderEntity {
     @Id
     @Column(name = "id_order")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IdOrder;
+    private Long idOrder;
 
     @ManyToOne
     @JoinColumn(name = "id_user", nullable = false)
@@ -33,8 +33,13 @@ public class OrderEntity {
     @Column(name = "shipping_address")
     private String shippingAddress;
 
-    @OneToMany(mappedBy = "idOrder", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     @JsonManagedReference
     private List<OrderItemEntity> items;
+
+    public void addOrderItem(OrderItemEntity item) {
+        items.add(item);
+        item.setOrder(this);
+    }
 
 }

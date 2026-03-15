@@ -12,7 +12,6 @@ import org.mindrot.jbcrypt.BCrypt;
 
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Optional;
 
 @Service
 public class AuthService {
