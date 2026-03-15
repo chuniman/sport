@@ -7,7 +7,6 @@ import com.zunino.sport.persistence.mapper.ProductMapper;
 import com.zunino.sport.persistence.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
