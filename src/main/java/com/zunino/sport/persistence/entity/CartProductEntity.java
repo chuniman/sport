@@ -12,18 +12,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CartProductEntity {
 
-    @Id
-    @Column(name = "id_cart_product")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long idCartProduct;
+    @EmbeddedId
+    private CartProductId id;
 
     @ManyToOne
-    @JoinColumn(name = "id_user", nullable = false)
-    private UserEntity idUser;
-
-    @ManyToOne
-    @JoinColumn(name = "id_product", nullable = false)
-    private ProductEntity idProduct;
+    @MapsId("productId")
+    @JoinColumn(name = "id_product")
+    private ProductEntity product;
 
     private Integer quantity;
 

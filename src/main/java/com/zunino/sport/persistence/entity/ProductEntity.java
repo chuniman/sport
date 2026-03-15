@@ -17,9 +17,8 @@ public class ProductEntity {
     @Column(name = "id_product")
     private Long idProduct;
     private String name;
-
-    //Image
-
+    @Column(name = "image_url")
+    private String imageUrl;
     private String description;
     private Double price;
     private Integer stock;

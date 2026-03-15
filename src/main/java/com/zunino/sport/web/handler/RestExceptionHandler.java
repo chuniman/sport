@@ -1,7 +1,6 @@
 package com.zunino.sport.web.handler;
 
-import com.zunino.sport.persistence.exception.TooYoungException;
-import com.zunino.sport.persistence.exception.UserNotFoundException;
+import com.zunino.sport.persistence.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,6 +24,30 @@ public class RestExceptionHandler {
     public ResponseEntity<Error> handleException(UserNotFoundException userNotFoundException) {
         Error errorResponse = new Error("user-not-found", userNotFoundException.getMessage());
         return new ResponseEntity<Error>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<Error> handleException(ProductNotFoundException productNotFound) {
+        Error errorResponse = new Error("product-not-found", productNotFound.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(NotEnoughProductException.class)
+    public ResponseEntity<Error> handleException(NotEnoughProductException notEnoughProductException) {
+        Error errorResponse = new Error("invalid-quantity", notEnoughProductException.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<Error> handleException(UnauthorizedException unauthorizedException) {
+        Error errorResponse = new Error("user-not-identified", unauthorizedException.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<Error> handleException(ForbiddenException forbiddenException) {
+        Error errorResponse = new Error("user-not-found", forbiddenException.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
