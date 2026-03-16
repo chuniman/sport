@@ -1,10 +1,12 @@
 package com.zunino.sport.web.controllers;
 
 import com.zunino.sport.service.OrderService;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/orders")
@@ -16,8 +18,8 @@ public class OrderController {
     }
 
     @GetMapping("/buy/{userId}")
-    public ResponseEntity<?> createOrder(@PathVariable Long userId) {
-        String result = orderService.createOrder(userId);
+    public ResponseEntity<?> createOrder(@PathVariable Long userId,@RequestParam Optional<String> newShippingAddress) {
+        String result = orderService.createOrder(userId, newShippingAddress);
         return ResponseEntity.ok(Map.of("orderNumber", result));
     }
 

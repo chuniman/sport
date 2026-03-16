@@ -38,6 +38,12 @@ public class RestExceptionHandler {
         return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(CartEmptyException.class)
+    public ResponseEntity<Error> handleException(CartEmptyException cartEmptyException) {
+        Error errorResponse = new Error("empty-cart", cartEmptyException.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Error> handleException(UnauthorizedException unauthorizedException) {
         Error errorResponse = new Error("user-not-identified", unauthorizedException.getMessage());

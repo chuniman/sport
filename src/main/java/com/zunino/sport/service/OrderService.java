@@ -5,6 +5,7 @@ import com.zunino.sport.persistence.entity.CartProductEntity;
 import com.zunino.sport.persistence.entity.OrderEntity;
 import com.zunino.sport.persistence.entity.OrderItemEntity;
 import com.zunino.sport.persistence.entity.UserEntity;
+import com.zunino.sport.persistence.exception.CartEmptyException;
 import com.zunino.sport.persistence.exception.UserNotFoundException;
 import com.zunino.sport.persistence.mapper.OrderMapper;
 import com.zunino.sport.persistence.repository.CartProductRepository;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -32,15 +34,23 @@ public class OrderService {
         this.orderMapper = orderMapper;
     }
 
-    public String createOrder(Long userId) {
+    public String createOrder(Long userId, Optional<String> newShippingAddress) {
         List<CartProductEntity> cartProducts = cartProductRepository.findByIdUserId(userId);
+        if (cartProducts.isEmpty()) {
+            throw new CartEmptyException("El carrito esta vacio");
+        }
         UserEntity user = userRepository.findById(userId).orElseThrow(() -> new UserNotFoundException("User not found"));
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setUser(user);
         orderEntity.setOrderStatus("CREATED");
         String trackingNumber = UUID.randomUUID().toString();
         orderEntity.setOrderNumber(trackingNumber);
-        orderEntity.setShippingAddress(user.getShippingAddress());
+        if (newShippingAddress.isPresent()) {
+            orderEntity.setShippingAddress(newShippingAddress.get());
+        }
+        else{
+            orderEntity.setShippingAddress(user.getShippingAddress());
+        }
         orderEntity.setItems(new ArrayList<>());
 
         for (CartProductEntity cartProduct : cartProducts) {
