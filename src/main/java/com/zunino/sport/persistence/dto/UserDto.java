@@ -1,6 +1,6 @@
 package com.zunino.sport.persistence.dto;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 public record UserDto(
 
@@ -9,6 +9,6 @@ public record UserDto(
         String lastName,
         String shippingAddress,
         String email,
-        LocalDateTime birthDate
+        LocalDate birthDate
 
 ) {}

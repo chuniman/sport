@@ -51,7 +51,7 @@ public class OrderService {
         else{
             orderEntity.setShippingAddress(user.getShippingAddress());
         }
-        orderEntity.setItems(new ArrayList<>());
+        //orderEntity.setItems(new ArrayList<>());
 
         for (CartProductEntity cartProduct : cartProducts) {
             OrderItemEntity  orderItemEntity = new OrderItemEntity();

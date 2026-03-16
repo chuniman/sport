@@ -5,6 +5,7 @@ import com.zunino.sport.persistence.entity.CartProductEntity;
 import com.zunino.sport.persistence.entity.CartProductId;
 import com.zunino.sport.persistence.entity.ProductEntity;
 import com.zunino.sport.persistence.exception.NotEnoughProductException;
+import com.zunino.sport.persistence.exception.ProductAlreadyInCartException;
 import com.zunino.sport.persistence.exception.ProductNotFoundException;
 import com.zunino.sport.persistence.exception.UserNotFoundException;
 import com.zunino.sport.persistence.mapper.CartProductMapper;
@@ -38,13 +39,18 @@ public class CartProductService {
         }
 
         ProductEntity productEntity = productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("Producto no encontrado"));
+
+        CartProductId cartProductId = new CartProductId();
+        cartProductId.setUserId(userId);
+        cartProductId.setProductId(productId);
+        if (cartProductRepository.existsById(cartProductId)){
+            throw new ProductAlreadyInCartException("El producto ya existe en el carrito");
+        }
+
         if (quantity > productEntity.getStock()) {
             throw new NotEnoughProductException("La cantidad debe ser menor a la cantidad en stock");
         }
         CartProductEntity cartProductEntity = new CartProductEntity();
-        CartProductId  cartProductId = new CartProductId();
-        cartProductId.setUserId(userId);
-        cartProductId.setProductId(productId);
         cartProductEntity.setId(cartProductId);
         cartProductEntity.setQuantity(quantity);
         cartProductEntity.setProduct(productEntity);

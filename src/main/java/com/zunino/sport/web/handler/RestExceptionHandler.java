@@ -44,6 +44,12 @@ public class RestExceptionHandler {
         return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(ProductAlreadyInCartException.class)
+    public ResponseEntity<Error> handleException(ProductAlreadyInCartException productAlreadyInCartException) {
+        Error errorResponse = new Error("product-already-in-cart", productAlreadyInCartException.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Error> handleException(UnauthorizedException unauthorizedException) {
         Error errorResponse = new Error("user-not-identified", unauthorizedException.getMessage());
@@ -52,7 +58,7 @@ public class RestExceptionHandler {
 
     @ExceptionHandler(ForbiddenException.class)
     public ResponseEntity<Error> handleException(ForbiddenException forbiddenException) {
-        Error errorResponse = new Error("user-not-found", forbiddenException.getMessage());
+        Error errorResponse = new Error("user-not-allowed", forbiddenException.getMessage());
         return new ResponseEntity<Error>(errorResponse, HttpStatus.FORBIDDEN);
     }
 
