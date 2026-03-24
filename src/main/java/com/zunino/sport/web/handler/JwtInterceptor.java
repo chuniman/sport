@@ -26,6 +26,11 @@ public class JwtInterceptor implements HandlerInterceptor {
             HttpServletResponse response,
             Object handler) {
 
+        // 🔥 permitir preflight
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            return true;
+        }
+
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {

@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/orders")
 public class OrderController {
     private OrderService orderService;
