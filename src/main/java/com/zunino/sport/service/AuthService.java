@@ -4,6 +4,7 @@ import com.zunino.sport.persistence.dto.LoginDto;
 import com.zunino.sport.persistence.dto.RegisterDto;
 import com.zunino.sport.persistence.entity.UserEntity;
 import com.zunino.sport.persistence.exception.TooYoungException;
+import com.zunino.sport.persistence.exception.UserAlreadyExists;
 import com.zunino.sport.persistence.exception.UserNotValidException;
 import com.zunino.sport.persistence.mapper.UserMapper;
 import com.zunino.sport.persistence.repository.UserRepository;
@@ -27,6 +28,11 @@ public class AuthService {
     }
 
     public boolean addUser(RegisterDto registerDto) {
+
+        if (userRepository.findByEmail(registerDto.email()).isPresent()) {
+            throw new UserAlreadyExists("El email ya está en uso");
+        }
+
         LocalDate today = LocalDate.now();
 
         int age = Period.between(registerDto.birthDate(), today).getYears();

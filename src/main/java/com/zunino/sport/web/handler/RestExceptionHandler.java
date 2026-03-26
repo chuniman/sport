@@ -50,6 +50,12 @@ public class RestExceptionHandler {
         return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(UserAlreadyExists.class)
+    public ResponseEntity<Error> handleException(UserAlreadyExists userAlreadyExists) {
+        Error errorResponse = new Error("user-already-exists", userAlreadyExists.getMessage());
+        return new ResponseEntity<Error>(errorResponse, HttpStatus.CONFLICT);
+    }
+
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<Error> handleException(UnauthorizedException unauthorizedException) {
         Error errorResponse = new Error("user-not-identified", unauthorizedException.getMessage());
